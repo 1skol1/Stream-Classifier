@@ -3,38 +3,16 @@
 
 An end-to-end implementation of a scalable real-time image streaming & classification service. Apache Kafka & Google Pub/Sub is used for streaming purposes & tf-serving model deployed in GKE is used for classification.
 
-
+# Data-flow diagram
+![alt text](https://github.com/1skol1/Stream-Classifier/blob/main/Stream-Classifier.jpg?raw=true)
 
 
 ## Folder Structure
 
 ```bash
 .
-├── ankle_boot.jpeg
-├── client.py
-├── config.py
-├── consumer_app_kafka.py
-├── consumer_app_pubsub.py
-├── fashion-loader.py
-├── frame-0.jpeg
 ├── kafka-stack-docker-compose
-│   ├── full-stack.yml
-│   ├── LICENSE
-│   ├── README.md
-│   ├── test.sh
-│   ├── zk-multiple-kafka-multiple-schema-registry.yml
-│   ├── zk-multiple-kafka-multiple.yml
-│   ├── zk-multiple-kafka-single.yml
-│   ├── zk-single-kafka-multiple.yml
 │   └── zk-single-kafka-single.yml
-├── producer_app.py
-├── __pycache__
-│   ├── config.cpython-39.pyc
-│   ├── producer_app.cpython-39.pyc
-│   ├── tf_helper.cpython-39.pyc
-│   ├── unified.cpython-39.pyc
-│   └── utils.cpython-39.pyc
-├── service-account-info.json
 ├── tensorflow-training
 │   ├── exported_model
 │   │   └── 1
@@ -44,14 +22,9 @@ An end-to-end implementation of a scalable real-time image streaming & classific
 │   │           ├── variables.data-00000-of-00001
 │   │           └── variables.index
 │   ├── model.py
-│   ├── __pycache__
-│   │   └── model.cpython-39.pyc
 │   └── trainer.py
-├── tf_helper.py
 ├── tf-serving
 │   ├── locust
-│   │   ├── __pycache__
-│   │   │   └── tasks.cpython-39.pyc
 │   │   ├── request-body.json
 │   │   ├── tasks.py
 │   │   └── test-config.json
@@ -60,8 +33,17 @@ An end-to-end implementation of a scalable real-time image streaming & classific
 │   │   ├── deployment.yaml
 │   │   └── service.yaml
 │   └── serving-k8s.sh
+├── README.md
+├── Stream-Classifier.jpg
+├── ankle_boot.jpeg
+├── client.py
+├── consumer_app_kafka.py
+├── consumer_app_pubsub.py
+├── producer_app.py
+├── tf_helper.py
 ├── unified.py
 └── utils.py
+
 ```
 ## Run Locally
 
