@@ -80,9 +80,37 @@ Create a new conda environment
 
 ## Train the model
 
-  To train a new model do this :
+  There's already a trained model ready to be deployed under exported_model dir. You can directly upload this model or retrain it or train a new model. 
+  To re-train the fashion-mnist model do this:
+  * If there are changes you want to make in the model, pls update the model.py .
+  * Then run the trainer.py, following are the arguments to be passed :
+  ```bash
+  usage: trainer.py [-h] -df DATA_FLAG -med MODEL_EXPORT_DIR [-train DATA_DIR_TRAIN] [-test DATA_DIR_TEST]
+                  [-bs BATCH_SIZE] [-ih IMG_HEIGHT] [-iw IMG_WIDTH] [-ic IMG_CHANNEL]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -df DATA_FLAG, --data_flag DATA_FLAG
+                        0 for fashion_mnist, 1 for other multiclass dataset
+  -med MODEL_EXPORT_DIR, --model_export_dir MODEL_EXPORT_DIR
+                        path of parent directory where you want to store the exported model
+  -train DATA_DIR_TRAIN, --data_dir_train DATA_DIR_TRAIN
+                        path to training dataset directory
+  -test DATA_DIR_TEST, --data_dir_test DATA_DIR_TEST
+                        path to test/eval dataset directory
+  -bs BATCH_SIZE, --batch_size BATCH_SIZE
+                        batch size to be used while training
+  -ih IMG_HEIGHT, --img_height IMG_HEIGHT
+                        height of images in the dataset
+  -iw IMG_WIDTH, --img_width IMG_WIDTH
+                        width of images in the dataset
+  -ic IMG_CHANNEL, --img_channel IMG_CHANNEL
+                        no of color channels for the image,for RGB its 3, for grayscale its 1
+  ```
   
-  To re-train the fashion-mnist model do this :
+  To train the a new model on new dataset do this :
+  * Update the model.py.
+  * Then run the trainer.py, with the arguments shown above.
   
   Export the trained model to a gcp bucket :
 ```bash
@@ -90,6 +118,8 @@ Create a new conda environment
   gsutil mb gs://${MODEL_BUCKET}
   gsutil -r cp exported_model gs://${MODEL_BUCKET}
 ```
+
+  **Make sure to grant IAM permissions to the compute engine service account to the gcp bucket.** 
 
 ## Pub/Sub Authentication
 
@@ -147,6 +177,14 @@ Create a new conda environment
   kubectl get pods                      # check the status of deployments
   # wait till a green checkmark - [x] appears on both the cluster & deployment in kubernetes dashboard in GCP. Might take 5-10 mins.
   # also note down the external ip of the cluster
+```
+
+  To load test the model server(Optional)
+```bash
+  cd locust
+  locust -f tasks.py \
+  --headless \
+  --host http://${EXTERNAL_IP}:8501
 ```
 
   Start kafka server(do this in a new terminal) :
