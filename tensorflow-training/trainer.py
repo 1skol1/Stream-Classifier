@@ -4,12 +4,8 @@ This file trains the model upon the training data and evaluates it with
 the eval data.
 """
 
-import os
 import argparse
-import logging
 
-import argparse
-import logging
 
 from pathlib import Path
 from datetime import datetime
@@ -18,11 +14,13 @@ import tensorflow as tf
 from tensorflow import keras
 import model
 
-def create_data_with_labels(data_dir,batch_size,img_height,img_width):
+def create_data_with_labels(data_dir,batch_size,img_height,img_width,img_channels):
 
     dataset = tf.keras.utils.image_dataset_from_directory(
                 data_dir,
                 seed=123,
+                image_mode = img_channels,
+                image_size = (img_width,img_height),
                 label_mode= 'int',
                 batch_size=batch_size)
                 
@@ -72,17 +70,16 @@ def train_model(data_flag,model_export_dir,data_dir_train=None,data_dir_test=Non
             print("No model found. You need to implement one in model.py")
         else:
             ml_model.fit(train_data, train_labels,
-                        batch_size=model.get_batch_size(),
+                        batch_size=batch_size,
                         epochs=model.get_epochs())
             ml_model.evaluate(test_data, test_labels, verbose=1)
             export_model(ml_model, export_dir=model_export_dir)
     else:
-        train_ds= create_data_with_labels(data_dir_train,batch_size,img_height,img_width)
-        test_ds = create_data_with_labels(data_dir_test,batch_size,img_height,img_width)
+        train_ds= create_data_with_labels(data_dir_train,batch_size,img_height,img_width,img_channels)
+        test_ds = create_data_with_labels(data_dir_test,batch_size,img_height,img_width,img_channels)
         train_ds = preprocess(train_ds)
         test_ds = preprocess(test_ds)
-        img_shape = (img_height, img_width, img_channels)
-        ml_model = model.nnet(img_shape)
+        ml_model = model.nnet()
         if ml_model is None:
             print("No model found. You need to implement one in model.py")
         else:

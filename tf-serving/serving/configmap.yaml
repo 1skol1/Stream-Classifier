@@ -4,4 +4,4 @@ metadata:
   name: tfserving-configs
 data:
   MODEL_NAME: image_classifier
-  MODEL_PATH: gs://vector-ai-330615-bucket/exported_model
+  MODEL_PATH: gs://<your-bucket-name>/exported_model

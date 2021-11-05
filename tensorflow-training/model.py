@@ -6,10 +6,6 @@ size and the model itself.
 
 import tensorflow as tf
 
-def get_batch_size():
-    """Returns the batch size.
-    """
-    return None
 
 def get_epochs():
     """Returns number of epochs.
